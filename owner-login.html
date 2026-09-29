@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Puente | Business Login</title>
+
+    <link
+        rel="stylesheet"
+        href="owner.css"
+    >
+</head>
+
+<body class="login-page">
+
+    <header class="portal-header">
+
+        <a
+            href="index.html"
+            class="portal-brand"
+        >
+            PUENTE
+        </a>
+
+        <a
+            href="index.html"
+            class="back-link"
+        >
+            ← Back to Home
+        </a>
+
+    </header>
+
+
+    <main class="login-wrapper">
+
+        <section class="login-card">
+
+            <p class="eyebrow">
+                BUSINESS PORTAL
+            </p>
+
+            <h1>
+                Welcome back.
+            </h1>
+
+            <p class="login-description">
+                Sign in to see your business's progress,
+                results and current Puente initiatives.
+            </p>
+
+
+            <label for="loginEmail">
+                Business Email
+            </label>
+
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="business@example.com"
+            >
+
+
+            <label for="loginPassword">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Enter password"
+            >
+
+
+            <button
+                type="button"
+                class="login-button"
+                onclick="ownerLogin()"
+            >
+                Sign In
+            </button>
+
+
+            <p
+                id="loginMessage"
+                class="login-message"
+            ></p>
+
+
+            <div class="demo-box">
+
+                <strong>
+                    Prototype Demo
+                </strong>
+
+                <p>
+                    For the competition prototype,
+                    enter any email and password.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        function ownerLogin() {
+
+            const email =
+                document.getElementById(
+                    "loginEmail"
+                ).value.trim();
+
+            const password =
+                document.getElementById(
+                    "loginPassword"
+                ).value.trim();
+
+
+            if (
+                email === "" ||
+                password === ""
+            ) {
+
+                document.getElementById(
+                    "loginMessage"
+                ).textContent =
+                    "Please enter an email and password.";
+
+                return;
+            }
+
+
+            localStorage.setItem(
+                "puenteOwnerLoggedIn",
+                "true"
+            );
+
+
+            window.location.href =
+                "owner.html";
+        }
+
+    </script>
+
+</body>
+
+</html>

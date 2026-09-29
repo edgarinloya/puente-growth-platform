@@ -1,0 +1,162 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f5f6f8;
+    color: #222;
+}
+
+header {
+    background-color: #111827;
+    color: white;
+    padding: 24px 40px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+header p {
+    margin-top: 6px;
+    margin-bottom: 0;
+}
+
+nav {
+    background-color: white;
+    padding: 14px 40px;
+    border-bottom: 1px solid #ddd;
+}
+
+nav button {
+    margin-right: 10px;
+    padding: 10px 16px;
+    border: none;
+    background-color: #e5e7eb;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+nav button:hover {
+    background-color: #d1d5db;
+}
+
+main {
+    padding: 30px 40px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.card-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 210px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.metric {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.panel {
+    background-color: white;
+    padding: 24px;
+    border-radius: 8px;
+    margin-top: 25px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+form {
+    max-width: 700px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 18px;
+    margin-bottom: 6px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+textarea {
+    min-height: 80px;
+}
+
+form button {
+    margin-top: 20px;
+    padding: 12px 20px;
+    border: none;
+    background-color: #111827;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    background-color: white;
+}
+
+th,
+td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f3f4f6;
+}
+select {
+    background-color: white;
+}
+
+.status-high {
+    font-weight: bold;
+}
+
+.empty-message {
+    color: #666;
+    font-style: italic;
+}
+#audit button {
+    margin-top: 18px;
+    padding: 12px 20px;
+    border: none;
+    background-color: #111827;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+#audit button:hover {
+    background-color: #1f2937;
+}

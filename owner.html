@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Puente | Business Portal</title>
+
+    <link
+        rel="stylesheet"
+        href="owner.css"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- =========================
+         TOP NAVIGATION
+    ========================== -->
+
+    <header class="owner-header">
+
+        <nav class="owner-nav">
+
+            <a
+                href="owner.html"
+                class="portal-brand"
+            >
+                PUENTE
+            </a>
+
+
+            <div class="owner-nav-links">
+
+                <a
+                    href="#overview"
+                    class="active"
+                >
+                    Overview
+                </a>
+
+                <a href="#progress">
+                    My Progress
+                </a>
+
+                <a href="#approvals">
+                    Approvals
+                </a>
+
+                <a href="#results">
+                    Results
+                </a>
+
+            </div>
+
+
+            <div class="owner-account">
+
+                <span id="navBusinessName">
+                    My Business
+                </span>
+
+                <button
+                    onclick="ownerLogout()"
+                >
+                    Sign Out
+                </button>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+
+    <main class="owner-main">
+
+        <!-- =========================
+             WELCOME
+        ========================== -->
+
+        <section
+            id="overview"
+            class="welcome-section"
+        >
+
+            <p class="eyebrow">
+                YOUR PUENTE DASHBOARD
+            </p>
+
+            <h1>
+                Welcome,
+                <span id="ownerBusinessName">
+                    Business Owner
+                </span>
+            </h1>
+
+            <p>
+                Here's how your digital growth work
+                is progressing.
+            </p>
+
+        </section>
+
+
+
+        <!-- =========================
+             TOP METRICS
+        ========================== -->
+
+        <article class="metric-card">
+
+    <p>
+        AI Visibility
+    </p>
+
+    <strong id="ownerAIVisibility">
+        —
+    </strong>
+
+    <span id="ownerAIAccuracy">
+        No discovery checks yet
+    </span>
+
+</article>
+
+        <section class="owner-metrics">
+
+            <article class="metric-card">
+
+                <p>
+                    Digital Presence
+                </p>
+
+                <strong
+                    id="ownerPresenceScore"
+                >
+                    0 / 100
+                </strong>
+
+                <span>
+                    Puente Digital Presence Score
+                </span>
+
+            </article>
+
+
+            <article class="metric-card">
+
+                <p>
+                    Actions Completed
+                </p>
+
+                <strong
+                    id="ownerActionsCompleted"
+                >
+                    0 / 0
+                </strong>
+
+                <span>
+                    Current growth plan
+                </span>
+
+            </article>
+
+
+            <article class="metric-card">
+
+                <p>
+                    Leads
+                </p>
+
+                <strong
+                    id="ownerLeads"
+                >
+                    —
+                </strong>
+
+                <span
+                    id="ownerLeadsChange"
+                >
+                    No results entered yet
+                </span>
+
+            </article>
+
+
+            <article class="metric-card accent-card">
+
+                <p>
+                    Attributed Sales
+                </p>
+
+                <strong
+                    id="ownerSales"
+                >
+                    —
+                </strong>
+
+                <span
+                    id="ownerSalesChange"
+                >
+                    No results entered yet
+                </span>
+
+            </article>
+
+        </section>
+
+
+
+        <!-- =========================
+             CURRENT WORK
+        ========================== -->
+
+        <section
+            class="owner-section"
+            id="progress"
+        >
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="eyebrow">
+                        CURRENT WORK
+                    </p>
+
+                    <h2>
+                        What Puente is working on
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="ownerActionList"
+                class="action-list"
+            >
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             APPROVALS
+        ========================== -->
+
+        <section
+            class="owner-section light-section"
+            id="approvals"
+        >
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="eyebrow">
+                        YOUR INPUT
+                    </p>
+
+                    <h2>
+                        Needs your approval
+                    </h2>
+
+                    <p>
+                        Review work Puente is preparing
+                        before it is published.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="ownerApprovalList"
+                class="approval-grid"
+            >
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             RESULTS
+        ========================== -->
+
+        <section
+            class="owner-section"
+            id="results"
+        >
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="eyebrow">
+                        YOUR RESULTS
+                    </p>
+
+                    <h2>
+                        See what's changing.
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="results-table-wrapper">
+
+                <table class="results-table">
+
+                    <thead>
+    <tr>
+        <th>Source</th>
+        <th>Visits</th>
+        <th>Leads</th>
+        <th>Attributed Sales</th>
+    </tr>
+</thead>
+
+                    <tbody id="ownerResultsBody">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+<section
+    class="owner-section"
+    id="recommendations"
+>
+
+    <div class="section-heading">
+
+        <div>
+
+            <p class="eyebrow">
+                PUENTE INSIGHTS
+            </p>
+
+            <h2>
+                What we recommend next
+            </h2>
+
+            <p>
+                Recommendations based on your current
+                visibility, attribution and growth activity.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="ownerRecommendations"
+        class="action-list"
+    >
+    </div>
+
+</section>
+
+        <!-- =========================
+             NEXT STEP
+        ========================== -->
+
+        <section class="owner-next">
+
+            <div>
+
+                <p class="eyebrow light">
+                    NEXT WITH PUENTE
+                </p>
+
+                <h2>
+                    Keep building what works.
+                </h2>
+
+                <p id="ownerNextStep">
+                    Puente is continuing to monitor
+                    your active growth initiatives.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="owner.js"></script>
+
+</body>
+
+</html>
