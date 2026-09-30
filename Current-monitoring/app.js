@@ -6,15 +6,80 @@ let editingAuditIndex = null;
 
 function showPage(pageId) {
 
-    const pages = document.querySelectorAll(".page");
+    const pages =
+        document.querySelectorAll(
+            ".page"
+        );
 
-    pages.forEach(function(page) {
-        page.classList.remove("active");
+
+    pages.forEach(
+        function(page) {
+
+            page.classList.remove(
+                "active"
+            );
+        }
+    );
+
+
+    const targetPage =
+        document.getElementById(
+            pageId
+        );
+
+
+    if (!targetPage) {
+
+        console.warn(
+            "Puente page not found:",
+            pageId
+        );
+
+        return;
+    }
+
+
+    targetPage.classList.add(
+        "active"
+    );
+
+
+    /* NAVIGATION ACTIVE STATE */
+
+    const navButtons =
+        document.querySelectorAll(
+            "nav button[data-page]"
+        );
+
+
+    navButtons.forEach(
+        function(button) {
+
+            button.classList.remove(
+                "active-nav"
+            );
+        }
+    );
+
+
+    const activeButton =
+        document.querySelector(
+            `nav button[data-page="${pageId}"]`
+        );
+
+
+    if (activeButton) {
+
+        activeButton.classList.add(
+            "active-nav"
+        );
+    }
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
     });
-
-    document
-        .getElementById(pageId)
-        .classList.add("active");
 }
 
 
@@ -58,10 +123,14 @@ function saveInterview() {
     };
 
 
-    localStorage.setItem(
-        "puenteInterview",
-        JSON.stringify(interviewData)
-    );
+   PuenteStore.update(function(data) {
+
+    data.profile = {
+        ...data.profile,
+        ...interviewData
+    };
+
+});
 
 
     updateBusinessProfile(interviewData);
@@ -215,10 +284,12 @@ function addAuditItem() {
 
 function saveAuditItems() {
 
-    localStorage.setItem(
-        "puenteAuditItems",
-        JSON.stringify(auditItems)
-    );
+    PuenteStore.update(function(data) {
+
+        data.auditItems =
+            auditItems;
+
+    });
 }
 
 
@@ -503,102 +574,90 @@ function updateDashboard() {
 
 function loadPuenteData() {
 
-    const savedInterview =
-        localStorage.getItem("puenteInterview");
+    const puenteData =
+        PuenteStore.get();
+
+    const interviewData =
+        puenteData.profile || {};
 
 
-    if (savedInterview) {
+    /* -------------------------
+       LOAD INTERVIEW
+    ------------------------- */
 
-        const interviewData =
-            JSON.parse(savedInterview);
+    document.getElementById(
+        "businessName"
+    ).value =
+        interviewData.businessName || "";
 
+    document.getElementById(
+        "ownerName"
+    ).value =
+        interviewData.ownerName || "";
 
-        document.getElementById(
-            "businessName"
-        ).value =
-            interviewData.businessName || "";
+    document.getElementById(
+        "industry"
+    ).value =
+        interviewData.industry || "";
 
+    document.getElementById(
+        "location"
+    ).value =
+        interviewData.location || "";
 
-        document.getElementById(
-            "ownerName"
-        ).value =
-            interviewData.ownerName || "";
+    document.getElementById(
+        "products"
+    ).value =
+        interviewData.products || "";
 
+    document.getElementById(
+        "customers"
+    ).value =
+        interviewData.customers || "";
 
-        document.getElementById(
-            "industry"
-        ).value =
-            interviewData.industry || "";
+    document.getElementById(
+        "advantages"
+    ).value =
+        interviewData.advantages || "";
 
+    document.getElementById(
+        "challenges"
+    ).value =
+        interviewData.challenges || "";
 
-        document.getElementById(
-            "location"
-        ).value =
-            interviewData.location || "";
+    document.getElementById(
+        "englishKeywords"
+    ).value =
+        interviewData.englishKeywords || "";
 
-
-        document.getElementById(
-            "products"
-        ).value =
-            interviewData.products || "";
-
-
-        document.getElementById(
-            "customers"
-        ).value =
-            interviewData.customers || "";
-
-
-        document.getElementById(
-            "advantages"
-        ).value =
-            interviewData.advantages || "";
-
-
-        document.getElementById(
-            "challenges"
-        ).value =
-            interviewData.challenges || "";
-
-
-        document.getElementById(
-            "englishKeywords"
-        ).value =
-            interviewData.englishKeywords || "";
+    document.getElementById(
+        "spanishKeywords"
+    ).value =
+        interviewData.spanishKeywords || "";
 
 
-        document.getElementById(
-            "spanishKeywords"
-        ).value =
-            interviewData.spanishKeywords || "";
+    updateBusinessProfile(
+        interviewData
+    );
 
 
-        updateBusinessProfile(
-            interviewData
-        );
-    }
+    /* -------------------------
+       LOAD DIGITAL AUDIT
+    ------------------------- */
 
-
-    const savedAuditItems =
-        localStorage.getItem(
-            "puenteAuditItems"
-        );
-
-
-    if (savedAuditItems) {
-
-        auditItems =
-            JSON.parse(savedAuditItems);
-    }
+    auditItems =
+        puenteData.auditItems || [];
 
 
     renderAuditTable();
 
-    renderActionPlan();
+renderActionPlan();
 
-    updateDashboard();
+updateDashboard();
 
-    updateGrowthBrief();
+updateGrowthBrief();
+
+renderApprovedFacts();
 }
 
 
@@ -665,17 +724,11 @@ function editAuditItem(index) {
 
 function updateGrowthBrief() {
 
-    const savedInterview =
-        localStorage.getItem("puenteInterview");
+    const puenteData =
+        PuenteStore.get();
 
-
-    let interviewData = {};
-
-
-    if (savedInterview) {
-        interviewData =
-            JSON.parse(savedInterview);
-    }
+    const interviewData =
+        puenteData.profile || {};
 
 
     document.getElementById(
@@ -891,3 +944,430 @@ function updateGrowthBrief() {
     ).textContent =
         strategyText;
 }
+/* =========================================
+   APPROVED FACTS BRIEF
+========================================= */
+
+
+/* -----------------------------------------
+   SAVE BUSINESS-LEVEL FACTS
+----------------------------------------- */
+
+function saveBusinessFacts() {
+
+    const hours =
+        document.getElementById(
+            "factHours"
+        ).value.trim();
+
+    const deliveryTerms =
+        document.getElementById(
+            "factDeliveryTerms"
+        ).value.trim();
+
+    const returnPolicy =
+        document.getElementById(
+            "factReturnPolicy"
+        ).value.trim();
+
+    const notes =
+        document.getElementById(
+            "factBusinessNotes"
+        ).value.trim();
+
+    const approvedBy =
+        document.getElementById(
+            "factApprovedBy"
+        ).value.trim();
+
+
+    PuenteStore.update(function(data) {
+
+        data.approvedFacts.business = {
+
+            ...data.approvedFacts.business,
+
+            hours: hours,
+
+            deliveryTerms: deliveryTerms,
+
+            returnPolicy: returnPolicy,
+
+            notes: notes,
+
+            approvedBy: approvedBy,
+
+            approvedAt:
+                new Date().toISOString()
+        };
+
+    });
+
+
+    document.getElementById(
+        "businessFactsStatus"
+    ).textContent =
+        "✓ Business facts saved as owner-approved source information.";
+}
+
+
+/* -----------------------------------------
+   ADD APPROVED PRODUCT
+----------------------------------------- */
+
+function addApprovedProduct() {
+
+    const productName =
+        document.getElementById(
+            "factProductName"
+        ).value.trim();
+
+    const sku =
+        document.getElementById(
+            "factSku"
+        ).value.trim();
+
+    const price =
+        document.getElementById(
+            "factPrice"
+        ).value.trim();
+
+    const availability =
+        document.getElementById(
+            "factAvailability"
+        ).value.trim();
+
+    const specifications =
+        document.getElementById(
+            "factSpecifications"
+        ).value.trim();
+
+    const warranty =
+        document.getElementById(
+            "factWarranty"
+        ).value.trim();
+
+    const ordering =
+        document.getElementById(
+            "factOrdering"
+        ).value.trim();
+
+    const englishTerms =
+        document.getElementById(
+            "factEnglishTerms"
+        ).value.trim();
+
+    const spanishTerms =
+        document.getElementById(
+            "factSpanishTerms"
+        ).value.trim();
+
+    const approvalStatus =
+        document.getElementById(
+            "factApprovalStatus"
+        ).value;
+
+
+    if (productName === "") {
+
+        alert(
+            "Please enter a product name."
+        );
+
+        return;
+    }
+
+
+    const product = {
+
+        id:
+            "product-" +
+            Date.now(),
+
+        productName:
+            productName,
+
+        sku:
+            sku,
+
+        price:
+            price,
+
+        availability:
+            availability,
+
+        specifications:
+            specifications,
+
+        warranty:
+            warranty,
+
+        ordering:
+            ordering,
+
+        englishTerms:
+            englishTerms,
+
+        spanishTerms:
+            spanishTerms,
+
+        approvalStatus:
+            approvalStatus,
+
+        approvedAt:
+            approvalStatus ===
+            "Owner Approved"
+                ? new Date().toISOString()
+                : ""
+    };
+
+
+    PuenteStore.update(function(data) {
+
+        data.approvedFacts.products.push(
+            product
+        );
+
+    });
+
+
+    clearApprovedProductForm();
+
+    renderApprovedFacts();
+}
+
+
+/* -----------------------------------------
+   CLEAR PRODUCT FORM
+----------------------------------------- */
+
+function clearApprovedProductForm() {
+
+    document.getElementById(
+        "factProductName"
+    ).value = "";
+
+    document.getElementById(
+        "factSku"
+    ).value = "";
+
+    document.getElementById(
+        "factPrice"
+    ).value = "";
+
+    document.getElementById(
+        "factAvailability"
+    ).value = "";
+
+    document.getElementById(
+        "factSpecifications"
+    ).value = "";
+
+    document.getElementById(
+        "factWarranty"
+    ).value = "";
+
+    document.getElementById(
+        "factOrdering"
+    ).value = "";
+
+    document.getElementById(
+        "factEnglishTerms"
+    ).value = "";
+
+    document.getElementById(
+        "factSpanishTerms"
+    ).value = "";
+
+    document.getElementById(
+        "factApprovalStatus"
+    ).value =
+        "Owner Approved";
+}
+
+
+/* -----------------------------------------
+   DELETE APPROVED PRODUCT
+----------------------------------------- */
+
+function deleteApprovedProduct(productId) {
+
+    const confirmed =
+        confirm(
+            "Remove this product from the Approved Facts Brief?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    PuenteStore.update(function(data) {
+
+        data.approvedFacts.products =
+            data.approvedFacts.products.filter(
+                function(product) {
+
+                    return (
+                        product.id !==
+                        productId
+                    );
+                }
+            );
+
+    });
+
+
+    renderApprovedFacts();
+}
+
+
+/* -----------------------------------------
+   RENDER APPROVED FACTS
+----------------------------------------- */
+
+function renderApprovedFacts() {
+
+    const data =
+        PuenteStore.get();
+
+    const businessFacts =
+        data.approvedFacts.business;
+
+    const products =
+        data.approvedFacts.products;
+
+
+    /* LOAD BUSINESS FACTS */
+
+    document.getElementById(
+        "factHours"
+    ).value =
+        businessFacts.hours || "";
+
+    document.getElementById(
+        "factDeliveryTerms"
+    ).value =
+        businessFacts.deliveryTerms || "";
+
+    document.getElementById(
+        "factReturnPolicy"
+    ).value =
+        businessFacts.returnPolicy || "";
+
+    document.getElementById(
+        "factBusinessNotes"
+    ).value =
+        businessFacts.notes || "";
+
+    document.getElementById(
+        "factApprovedBy"
+    ).value =
+        businessFacts.approvedBy || "";
+
+
+    /* LOAD PRODUCT TABLE */
+
+    const tableBody =
+        document.getElementById(
+            "approvedProductsTableBody"
+        );
+
+
+    tableBody.innerHTML = "";
+
+
+    if (products.length === 0) {
+
+        const row =
+            document.createElement("tr");
+
+        row.innerHTML = `
+            <td colspan="6">
+                No approved products added yet.
+            </td>
+        `;
+
+        tableBody.appendChild(row);
+
+        return;
+    }
+
+
+    products.forEach(
+        function(product) {
+
+            const row =
+                document.createElement("tr");
+
+
+            row.innerHTML = `
+
+                <td>
+                    <strong>
+                        ${product.productName}
+                    </strong>
+                </td>
+
+                <td>
+                    ${product.sku || "—"}
+                </td>
+
+                <td>
+                    ${product.price || "—"}
+                </td>
+
+                <td>
+                    ${product.availability || "—"}
+                </td>
+
+                <td>
+                    ${product.approvalStatus}
+                </td>
+
+                <td>
+                    <button
+                        type="button"
+                        onclick="deleteApprovedProduct(
+                            '${product.id}'
+                        )"
+                    >
+                        Remove
+                    </button>
+                </td>
+
+            `;
+
+
+            tableBody.appendChild(
+                row
+            );
+        }
+    );
+}
+
+/* =========================================
+   SHARED DATA SYNCHRONIZATION
+========================================= */
+
+window.addEventListener(
+    "puente:data-changed",
+    function() {
+
+        const data =
+            PuenteStore.get();
+
+        auditItems =
+            data.auditItems || [];
+
+        renderAuditTable();
+
+        renderActionPlan();
+
+        updateDashboard();
+
+        updateGrowthBrief();
+
+        renderApprovedFacts();
+    }
+);
