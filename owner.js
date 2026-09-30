@@ -1112,7 +1112,7 @@ function loadResults(
    HEADLINE METRICS
 ============================= */
 
-fconst clicks =
+const clicks =
     metrics.clicks;
 
 
